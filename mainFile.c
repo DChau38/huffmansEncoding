@@ -56,9 +56,9 @@ Node* dequeue(PriorityQueue*pq){
     return root;
 }
 void swap(Node **a, Node **b) {
-    Node *temp = *a; // Use a temporary pointer to hold one of the nodes
-    *a = *b;         // Swap the pointers
-    *b = temp;      // Assign the temp pointer to the second pointer
+    Node *temp = *a;
+    *a = *b;         
+    *b = temp;     
 }
 
 void freePriorityQueue(PriorityQueue*pq){
@@ -76,21 +76,18 @@ void bubbleUp(PriorityQueue *pq, int i) {
 }
 
 void bubbleDown(PriorityQueue *pq, int i) {
-    int smallest = i; // Start with the current index as the smallest
-    int leftChild = (i * 2) + 1; // Left child index
-    int rightChild = (i * 2) + 2; // Right child index
+    int smallest = i; 
+    int leftChild = (i * 2) + 1; 
+    int rightChild = (i * 2) + 2; 
 
-    // Check if left child exists and is smaller than current smallest
     if (leftChild < pq->size && pq->array[leftChild]->frequency < pq->array[smallest]->frequency) {
         smallest = leftChild;
     }
 
-    // Check if right child exists and is smaller than current smallest
     if (rightChild < pq->size && pq->array[rightChild]->frequency < pq->array[smallest]->frequency) {
         smallest = rightChild;
     }
 
-    // If smallest is not the current index, swap and continue bubbling down
     if (smallest != i) {
         swap(&pq->array[i], &pq->array[smallest]);
         bubbleDown(pq, smallest);
@@ -101,13 +98,12 @@ int getParentIndex(int i){
 }
 void generateCodes(Node* root, char* code, int codeLen, char codes[256][256]) {
     if (!root) {
-        return; // Base case: If root is NULL, return
+        return; 
     }
 
-    // Check if the node is a leaf node (i.e., it contains a character)
     if (root->left == NULL && root->right == NULL) {
-        code[codeLen] = '\0'; // Null-terminate the string
-        strcpy(codes[(unsigned char)root->character], code); // Store the code for this character
+        code[codeLen] = '\0'; 
+        strcpy(codes[(unsigned char)root->character], code); 
         if (debug) {
             if (root->character == '\n') {
                 printf("LF                 %d  %s\n", root->frequency, code);
@@ -120,16 +116,14 @@ void generateCodes(Node* root, char* code, int codeLen, char codes[256][256]) {
         return;
     }
 
-    // Traverse left (append '0' to the code)
     if (root->left) {
-        code[codeLen] = '0';            // Add '0' to the code buffer
-        generateCodes(root->left, code, codeLen + 1, codes); // Recursively go left
+        code[codeLen] = '0';            
+        generateCodes(root->left, code, codeLen + 1, codes); 
     }
 
-    // Traverse right (append '1' to the code)
     if (root->right) {
-        code[codeLen] = '1';            // Add '1' to the code buffer
-        generateCodes(root->right, code, codeLen + 1, codes); // Recursively go right
+        code[codeLen] = '1';           
+        generateCodes(root->right, code, codeLen + 1, codes); 
     }
 }
 
@@ -196,7 +190,7 @@ int main(int argc,char*argv[]) {
     char codes[256][256];//mapping of char->encoding
     char code[256]; //temporary list for making codes
     for (int i = 0; i < 256; i++) {
-        codes[i][0] = '\0'; // Set first character to null terminator
+        codes[i][0] = '\0'; 
     }
     if (pq->size==1){
         Node*root=dequeue(pq);
@@ -216,8 +210,7 @@ int main(int argc,char*argv[]) {
     }
     }*/
 
-    //4. encode input data
-    //handle output stuff
+    //4. iteratively convert -> output
     FILE *fpOut=fopen(outFileName,"wb");
     if (!fpOut){
         fprintf(stderr,"fail to open file\n");
