@@ -149,7 +149,7 @@ int main(int argc,char*argv[]) {
     //A. if inFile is NULL, use default file name for input
     if (inFileName==NULL){
         inFileName=(char*)malloc(sizeof(char)*(strlen("completeShakespeare.txt")+1));
-        strcp(inFileName,"completeShakespeare.txt");
+        strcpy(inFileName,"completeShakespeare.txt");
     }
     //B. if outFile is NULL, use default file name for output
     if (outFileName==NULL){
@@ -160,8 +160,8 @@ int main(int argc,char*argv[]) {
     int charToFrequency[256]={0};
     FILE* inputFile=fopen(inFileName,"r");
     char c;
-    while ((c=fgetc(inputFileName))!=EOF){
-        charToFrequency[(unsigned char)inputStr[i]]++;
+    while ((c=fgetc(inputFile))!=EOF){
+        charToFrequency[(unsigned char)c]++;
 
     }
     //2. construct huffman tree
@@ -172,7 +172,6 @@ int main(int argc,char*argv[]) {
             insert(pq,node);
         }
     }
-
     while (pq->size>1){
         Node *left=dequeue(pq);
         //printf("%c:%d\n",left->character,left->frequency);
@@ -195,14 +194,15 @@ int main(int argc,char*argv[]) {
         generateCodes(root,code,0,codes);
 
     }
+    /*//prints out codes
     for (int i=0;i<256;i++){
         if(strlen(codes[i])>0){
             printf("%c: %s\n",i,codes[i]);
         }
-    }
+    }*/
     //4. encode input data
     //handle output stuff
-    FILE *fp;
+    /*FILE *fp;
     fp=fopen("binaryFile","wb");
     if (!fp){
         fprintf(strderr,"fail to open file\n");
@@ -213,7 +213,7 @@ int main(int argc,char*argv[]) {
         char*matchingCode=codes['A'];
         fwrite(matchingCode,sizeof(uchar),1,fp)
     }
-    fclose(fp);
+    fclose(fp);*/
 
 
 
