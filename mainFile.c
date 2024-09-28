@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <getopt.h>
+#include <stdint.h>
 
 typedef struct Node{
     char character;
@@ -94,8 +95,6 @@ void bubbleDown(PriorityQueue *pq, int i) {
         bubbleDown(pq, smallest);
     }
 }
-
-
 int getParentIndex(int i){
     return (i-1)/2;
 }
@@ -128,29 +127,42 @@ int main(int argc,char*argv[]) {
     //0. handle CLA
     int opt;
     int debug=0;
-    char *inputFile=NULL;
-    char *outputFile=NULL;
+    //names of files
+    char *inFileName=NULL;
+    char *outFileName=NULL;
     while ((opt=getopt(argc,argv,"di:o:"))!=-1){
+        //iterates through each character in CLA. If meeting condition, opt will be set to value and switch case will activate. Else, it will be ? and not. When it's finished going through all, will return -1
         switch(opt){
             case 'd':
                 debug=1;
                 break;
             case 'i':
-                inputFile=optarg;
+                inFileName=(char*)malloc(sizeof(char)*(strlen(optarg)+1));
+                strcpy(inFileName,optarg);
                 break;
             case 'o':
-                outputFile=optarg;
+                outFileName=(char*)malloc(sizeof(char)*(strlen(optarg)+1));
+                strcpy(outFileName,optarg);
                 break;
         }
     }
+    //A. if inFile is NULL, use default file name for input
+    if (inFileName==NULL){
+        inFileName=(char*)malloc(sizeof(char)*(strlen("completeShakespeare.txt")+1));
+        strcp(inFileName,"completeShakespeare.txt");
+    }
+    //B. if outFile is NULL, use default file name for output
+    if (outFileName==NULL){
+        outFileName=(char*)malloc(sizeof(char)*(strlen("huffman.out")+1));
+        strcpy(outFileName,"huffman.out");
+    }
     //1. map charToFreq
     int charToFrequency[256]={0};
-    char*inputStr="abbccccdddddddddd";
-    for (int i=0;i<strlen(inputStr);i++){
+    FILE* inputFile=fopen(inFileName,"r");
+    char c;
+    while ((c=fgetc(inputFileName))!=EOF){
         charToFrequency[(unsigned char)inputStr[i]]++;
-    }
-    if (debug){
-        for (int i=0;i<strlen())
+
     }
     //2. construct huffman tree
     PriorityQueue* pq = createPriorityQueue();
@@ -189,6 +201,21 @@ int main(int argc,char*argv[]) {
         }
     }
     //4. encode input data
+    //handle output stuff
+    FILE *fp;
+    fp=fopen("binaryFile","wb");
+    if (!fp){
+        fprintf(strderr,"fail to open file\n");
+        return 1;
+    }
+    int numberOfChars=5;
+    for (int i=0;i<numberOfChars;i++){
+        char*matchingCode=codes['A'];
+        fwrite(matchingCode,sizeof(uchar),1,fp)
+    }
+    fclose(fp);
+
+
 
     return 0;
 }
