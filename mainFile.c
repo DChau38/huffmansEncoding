@@ -191,6 +191,9 @@ int main(int argc,char*argv[]) {
     }
     if (pq->size==1){
         Node*root=dequeue(pq);
+        if (debug){
+            printf("Total combined frequency:%d\n",root->frequency);
+        }
         generateCodes(root,code,0,codes);
 
     }
@@ -202,7 +205,7 @@ int main(int argc,char*argv[]) {
     }*/
     //4. encode input data
     //handle output stuff
-    FILE *fpOut=fopen("myOutput.out","wb");
+    FILE *fpOut=fopen(outFileName,"wb");
     if (!fpOut){
         fprintf(stderr,"fail to open file\n");
         return 1;
@@ -232,7 +235,10 @@ int main(int argc,char*argv[]) {
     if (bitCount>0){
         fwrite(&byteBuffer,sizeof(unsigned char),1,fpOut);
     }
+    fclose(inputFile);
     fclose(fpOut);
+    free(inFileName);
+    free(outFileName);
     return 0;
 }
 
