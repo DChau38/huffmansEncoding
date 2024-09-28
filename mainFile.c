@@ -202,21 +202,37 @@ int main(int argc,char*argv[]) {
     }*/
     //4. encode input data
     //handle output stuff
-    /*FILE *fp;
-    fp=fopen("binaryFile","wb");
-    if (!fp){
-        fprintf(strderr,"fail to open file\n");
+    FILE *fpOut=fopen("myOutput.out","wb");
+    if (!fpOut){
+        fprintf(stderr,"fail to open file\n");
         return 1;
     }
-    int numberOfChars=5;
-    for (int i=0;i<numberOfChars;i++){
-        char*matchingCode=codes['A'];
-        fwrite(matchingCode,sizeof(uchar),1,fp)
+    //reset pointer
+    rewind(inputFile);
+    unsigned char byteBuffer=0; //holds 8 bits
+    int bitCount=0; //tracks our position in our byteBuffer
+    while ((c=fgetc(inputFile))!=EOF){
+        char*matchingCode=codes[(unsigned char)c];
+        //iterate through the matchingCode, add bits to byteBuffer
+        for (int i=0;matchingCode[i]!='\0';i++){
+            if (matchingCode[i]=='1'){
+                //OR-EQUAL with byteBuffer, 00000001 bit-shifted a certain amonut
+                byteBuffer |= (1<< (7-bitCount));
+            }
+            bitCount++;
+            //byteBuffer is full -> reset
+            if (bitCount==8){
+                fwrite(&byteBuffer, sizeof(unsigned char),1, fpOut);
+                byteBuffer=0;
+                bitCount=0;
+            }
+        }
     }
-    fclose(fp);*/
-
-
-
+    //account for any remaining bits
+    if (bitCount>0){
+        fwrite(&byteBuffer,sizeof(unsigned char),1,fpOut);
+    }
+    fclose(fpOut);
     return 0;
 }
 
