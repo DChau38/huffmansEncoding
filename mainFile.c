@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <getopt.h>
 #include <stdint.h>
+int debug=0;
 
 typedef struct Node{
     char character;
@@ -107,6 +108,15 @@ void generateCodes(Node* root, char* code, int codeLen, char codes[256][256]) {
     if (root->left == NULL && root->right == NULL) {
         code[codeLen] = '\0'; // Null-terminate the string
         strcpy(codes[(unsigned char)root->character], code); // Store the code for this character
+        if (debug) {
+            if (root->character == '\n') {
+                printf("LF                 %d  %s\n", root->frequency, code);
+            } else if (root->character == ' ') {
+                printf("SPACE              %d  %s\n", root->frequency, code);
+            } else {
+                printf("%c                  %d  %s\n", (unsigned char)root->character, root->frequency, code);
+            }
+        }
         return;
     }
 
@@ -126,7 +136,6 @@ void generateCodes(Node* root, char* code, int codeLen, char codes[256][256]) {
 int main(int argc,char*argv[]) {
     //0. handle CLA
     int opt;
-    int debug=0;
     //names of files
     char *inFileName=NULL;
     char *outFileName=NULL;
@@ -192,17 +201,21 @@ int main(int argc,char*argv[]) {
     if (pq->size==1){
         Node*root=dequeue(pq);
         if (debug){
-            printf("Total combined frequency:%d\n",root->frequency);
+            printf("Input File: %s\n", inFileName);
+            printf("Total combined frequency / number of bytes / length of file : %d\n",root->frequency);
         }
         generateCodes(root,code,0,codes);
 
     }
-    /*//prints out codes
+    //prints out codes
+    /*if (debug){
     for (int i=0;i<256;i++){
         if(strlen(codes[i])>0){
             printf("%c: %s\n",i,codes[i]);
         }
+    }
     }*/
+
     //4. encode input data
     //handle output stuff
     FILE *fpOut=fopen(outFileName,"wb");
