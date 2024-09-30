@@ -1,3 +1,4 @@
+//Duksing Chau
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -157,7 +158,7 @@ int main(int argc,char*argv[]) {
     //B. if outFile is NULL, use default file name for output
     if (outFileName==NULL){
         outFileName=(char*)malloc(sizeof(char)*(strlen("huffman.out")+1));
-        strcpy(outFileName,"huffman.out");
+        strcpy(outFileName,"myHuffman.out");
     }
     //1. map charToFreq
     int charToFrequency[256]={0};
