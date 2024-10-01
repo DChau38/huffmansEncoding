@@ -157,8 +157,8 @@ int main(int argc,char*argv[]) {
     }
     //B. if outFile is NULL, use default file name for output
     if (outFileName==NULL){
-        outFileName=(char*)malloc(sizeof(char)*(strlen("myHuffman.out")+1));
-        strcpy(outFileName,"myHuffman.out");
+        outFileName=(char*)malloc(sizeof(char)*(strlen("encodedShakespeare.out")+1));
+        strcpy(outFileName,"encodedShakespeare.out");
     }
     //1. map charToFreq
     int charToFrequency[256]={0};
