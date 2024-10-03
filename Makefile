@@ -21,3 +21,7 @@ mainFile.o: mainFile.c huffman.h
 # Clean target to remove object files and the executable
 clean:
 	rm -f *.o huffmanExecutable
+
+# Run target to execute the program with specific arguments
+run:
+	./huffmanExecutable.exe -d
