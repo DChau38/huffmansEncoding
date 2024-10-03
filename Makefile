@@ -4,6 +4,8 @@
 CC = gcc
 CFLAGS = -Wall -O2
 
+# All target
+all: huffmanExecutable
 # Target for building the huffmanExecutable from multiple object files
 huffmanExecutable: huffman.o mainFile.o
 	$(CC) $(CFLAGS) -o huffmanExecutable huffman.o mainFile.o
